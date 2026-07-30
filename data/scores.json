@@ -1,14 +1,14 @@
 [
   {
-    "player": "Emyr",
-    "points": 10
-  },
-  {
     "player": "Sarah",
-    "points": 15
+    "points": 20
   },
   {
     "player": "John",
-    "points": 7
+    "points": 19
+  },
+  {
+    "player": "Emyr",
+    "points": 18
   }
 ]
