@@ -1,46 +1,23 @@
 name: Update Leaderboard
 
 on:
-  push:
-    branches:
-      - main
-
-  workflow_dispatch:
+  repository_dispatch:
+    types: [new-score]
 
 jobs:
-  update-leaderboard:
+  update:
     runs-on: ubuntu-latest
 
     permissions:
       contents: write
 
     steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v5
 
-      - name: Set Up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: "3.12"
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-      - name: Verify Input File Exists
+      - name: Show received data
         run: |
-          test -f data/results.csv
-
-      - name: Generate Leaderboard
-        run: |
-          python scripts/generate_scores.py
-
-      - name: Commit Updated Scores
-        run: |
-          git config user.name "github-actions"
-          git config user.email "github-actions@github.com"
-
-          git add data/scores.json
-
-          if git diff --staged --quiet; then
-            echo "No changes detected"
-          else
-            git commit -m "Auto-update leaderboard"
-            git push
-          fi
+          echo "Player: ${{ github.event.client_payload.player }}"
+          echo "Round: ${{ github.event.client_payload.round }}"
+          echo "Points: ${{ github.event.client_payload.points }}"
