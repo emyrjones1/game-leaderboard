@@ -1,23 +1,29 @@
-fetch("data/scores.json")
-  .then(response => response.json())
-  .then(scores => {
+document
+.getElementById("scoreForm")
+.addEventListener("submit", function(e) {
 
-    scores.sort((a, b) => b.points - a.points);
+    e.preventDefault();
 
-    const tbody = document.querySelector("#leaderboard tbody");
+    const player =
+        document.getElementById("player").value;
 
-    scores.forEach((player, index) => {
+    const round =
+        document.getElementById("round").value;
 
-      const row = document.createElement("tr");
+    const points =
+        document.getElementById("points").value;
 
-      row.innerHTML = `
-        <td>${index + 1}</td>
-        <td>${player.player}</td>
-        <td>${player.points}</td>
-      `;
 
-      tbody.appendChild(row);
+    const body =
+`Player: ${player}
+Round: ${round}
+Points: ${points}`;
 
-    });
 
-  });
+    const issueURL =
+    `https://github.com/emyrjones1/game-leaderboard/issues/new?title=New Score&body=${encodeURIComponent(body)}`;
+
+
+    window.open(issueURL, "_blank");
+
+});

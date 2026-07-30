@@ -1,34 +1,32 @@
-<!DOCTYPE html>
-<html lang="en">
+<h1>Submit Score</h1>
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<form id="scoreForm">
 
-    <title>Game Leaderboard</title>
+<label>
+Player:
+<input id="player" required>
+</label>
 
-    <link rel="stylesheet" href="styles.css">
-</head>
+<br>
 
-<body>
+<label>
+Round:
+<input id="round" required>
+</label>
 
-    <h1>Leaderboard</h1>
+<br>
 
-    <table id="leaderboard">
-        <thead>
-            <tr>
-                <th>Rank</th>
-                <th>Player</th>
-                <th>Points</th>
-            </tr>
-        </thead>
+<label>
+Points:
+<input id="points" type="number" required>
+</label>
 
-        <tbody>
-        </tbody>
-    </table>
+<br>
 
-    <script src="script.js"></script>
+<button type="submit">
+Submit Score
+</button>
 
-</body>
+</form>
 
-</html>
+<script src="script.js"></script>
