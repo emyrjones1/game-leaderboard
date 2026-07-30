@@ -1,29 +1,97 @@
-document
-.getElementById("scoreForm")
-.addEventListener("submit", function(e) {
+const API = "https://game-leaderboard-api.emyrjones2001.workers.dev";
 
-    e.preventDefault();
+// ---------- Leaderboard ----------
 
-    const player =
-        document.getElementById("player").value;
+async function loadLeaderboard() {
 
-    const round =
-        document.getElementById("round").value;
+    const table = document.querySelector("#leaderboard tbody");
 
-    const points =
-        document.getElementById("points").value;
+    if (!table) return;
 
+    const response = await fetch(API);
 
-    const body =
-`Player: ${player}
-Round: ${round}
-Points: ${points}`;
+    const scores = await response.json();
 
+    const totals = {};
 
-    const issueURL =
-    `https://github.com/emyrjones1/game-leaderboard/issues/new?title=New Score&body=${encodeURIComponent(body)}`;
+    scores.forEach(score => {
 
+        totals[score.team] =
+            (totals[score.team] || 0)
+            + score.points;
 
-    window.open(issueURL, "_blank");
+    });
+
+    const leaderboard =
+        Object.entries(totals)
+        .sort((a,b)=>b[1]-a[1]);
+
+    table.innerHTML="";
+
+    leaderboard.forEach((team,index)=>{
+
+        table.innerHTML += `
+
+        <tr>
+
+        <td>${index+1}</td>
+
+        <td>${team[0]}</td>
+
+        <td>${team[1]}</td>
+
+        </tr>
+
+        `;
+
+    });
+
+    document.getElementById("lastUpdated").textContent =
+        "Updated " +
+        new Date().toLocaleTimeString();
+
+}
+
+loadLeaderboard();
+
+setInterval(loadLeaderboard,10000);
+
+// ---------- Submission ----------
+
+const form=document.getElementById("scoreForm");
+
+if(form){
+
+form.addEventListener("submit",async(e)=>{
+
+e.preventDefault();
+
+await fetch(API,{
+
+method:"POST",
+
+headers:{
+
+"Content-Type":"application/json"
+
+},
+
+body:JSON.stringify({
+
+team:document.getElementById("team").value,
+
+round:Number(document.getElementById("round").value),
+
+points:Number(document.getElementById("points").value)
+
+})
 
 });
+
+document.getElementById("message").textContent="Score submitted.";
+
+form.reset();
+
+});
+
+}

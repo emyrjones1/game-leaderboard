@@ -1,32 +1,41 @@
-<h1>Submit Score</h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
 
-<form id="scoreForm">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 
-<label>
-Player:
-<input id="player" required>
-</label>
+<title>Team Challenge Leaderboard</title>
 
-<br>
+<link rel="stylesheet" href="style.css">
 
-<label>
-Round:
-<input id="round" required>
-</label>
+</head>
 
-<br>
+<body>
 
-<label>
-Points:
-<input id="points" type="number" required>
-</label>
+<h1>🏆 Team Challenge Leaderboard</h1>
 
-<br>
+<p id="lastUpdated"></p>
 
-<button type="submit">
-Submit Score
-</button>
+<table id="leaderboard">
 
-</form>
+<thead>
+
+<tr>
+<th>Rank</th>
+<th>Team</th>
+<th>Total Points</th>
+</tr>
+
+</thead>
+
+<tbody>
+
+</tbody>
+
+</table>
 
 <script src="script.js"></script>
+
+</body>
+</html>
