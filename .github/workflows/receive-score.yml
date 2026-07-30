@@ -1,0 +1,16 @@
+name: Receive Score
+
+on:
+  repository_dispatch:
+    types: [new-score]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Print payload
+        run: |
+          echo "Player: ${{ github.event.client_payload.player }}"
+          echo "Round: ${{ github.event.client_payload.round }}"
+          echo "Points: ${{ github.event.client_payload.points }}"

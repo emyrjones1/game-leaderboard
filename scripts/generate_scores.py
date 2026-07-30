@@ -8,7 +8,7 @@ with open("data/results.csv", newline="", encoding="utf-8") as csvfile:
     reader = csv.DictReader(csvfile)
 
     for row in reader:
-        player = row["Player"]
+        player = row["Team name"]
         points = int(row["Points"])
 
         scores[player] += points
