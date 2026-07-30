@@ -1,0 +1,21 @@
+name: Validate Leaderboard Data
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  validate-json:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Validate scores.json
+        run: |
+          python -m json.tool data/scores.json > /dev/null
+
+      - name: Success message
+        run: echo "JSON validation passed!"
