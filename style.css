@@ -73,3 +73,44 @@ padding:10px;
 margin-bottom:20px;
 
 }
+
+
+.leaderboard-table {
+
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+
+}
+
+
+.leaderboard-table th,
+.leaderboard-table td {
+
+    padding: 12px;
+    text-align: center;
+    border-bottom: 1px solid #ddd;
+
+}
+
+
+.leaderboard-table th {
+
+    font-weight: bold;
+
+}
+
+
+.leaderboard-table tr:first-child td {
+
+    font-size: 1.1em;
+
+}
+
+
+.subtitle {
+
+    text-align:center;
+    font-size:1.2rem;
+
+}
