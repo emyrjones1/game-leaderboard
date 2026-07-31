@@ -34,7 +34,7 @@ async function loadLeaderboard() {
                 <div class="competition-banner">
 
                     <h1>
-                        🏔️ OCAT Team Challenge 🏔️
+                        🏔️ Analysis Team Challenge 🏔️
                     </h1>
 
 
