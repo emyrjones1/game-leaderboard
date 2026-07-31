@@ -1,62 +1,97 @@
 const form = document.getElementById("scoreForm");
+
 const message = document.getElementById("message");
 
 
-form.addEventListener("submit", async function(event) {
-
-    event.preventDefault();
-
-
-    const team = document.getElementById("team").value;
-    const challenge = document.getElementById("challenge").value;
-    const points = document.getElementById("points").value;
+form.addEventListener(
+"submit",
+async function(e){
 
 
-    message.textContent = "Submitting score...";
+    e.preventDefault();
+
+
+    const team =
+        document.getElementById("team").value;
+
+
+    const challenge =
+        document.getElementById("challenge").value;
+
+
+    const points =
+        document.getElementById("points").value;
+
+
+
+    message.innerHTML =
+        "Submitting... ⏳";
 
 
     try {
 
+
         const response = await fetch(
             "/.netlify/functions/submit-score",
             {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                    team,
-                    challenge,
-                    points
-                })
-            }
-        );
+
+            method:"POST",
+
+            headers:{
+                "Content-Type":"application/json"
+            },
+
+            body:JSON.stringify({
+
+                team,
+                challenge,
+                points
+
+            })
+
+        });
 
 
-        const result = await response.json();
+
+        const data =
+            await response.json();
 
 
-        if (result.success) {
 
-            message.textContent = "✅ Score submitted successfully!";
+        if(data.success){
+
+
+            message.innerHTML =
+            "✅ Score submitted!";
+
 
             form.reset();
 
-        } else {
 
-            message.textContent =
-                "❌ Error: " + result.error;
+        }
+        else {
+
+
+            message.innerHTML =
+            "❌ Error submitting score";
+
 
         }
 
 
-    } catch (error) {
+
+    }
+    catch(error){
+
 
         console.error(error);
 
-        message.textContent =
-            "❌ Could not submit score.";
+
+        message.innerHTML =
+        "❌ Connection error";
+
 
     }
+
 
 });

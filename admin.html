@@ -4,6 +4,7 @@
 <head>
 
 <meta charset="UTF-8">
+
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <title>Submit Score</title>
@@ -12,63 +13,128 @@
 
 </head>
 
-<body>
 
-<div class="container">
+<body class="admin-page">
 
-<h1>Submit Round Score</h1>
+
+<div class="form-container">
+
+
+<h1>
+🏔️ Submit Score
+</h1>
+
+<p class="subtitle">
+Enter your team's round score
+</p>
+
 
 <form id="scoreForm">
 
-<label for="team">Team</label>
+
+<label>
+Team
+</label>
+
 
 <select id="team" required>
 
-    <option value="Yr Wyddfa">Yr Wyddfa</option>
-    <option value="Pen y Fan">Pen y Fan</option>
-    <option value="Cadair Idris">Cadair Idris</option>
-    <option value="Tryfan">Tryfan</option>
-    <option value="Sugar Loaf">Sugar Loaf</option>
+<option value="">
+Select team
+</option>
+
+<option value="Yr Wyddfa">
+Yr Wyddfa
+</option>
+
+<option value="Pen y Fan">
+Pen y Fan
+</option>
+
+<option value="Cadair Idris">
+Cadair Idris
+</option>
+
+<option value="Tryfan">
+Tryfan
+</option>
+
+<option value="Sugar Loaf">
+Sugar Loaf
+</option>
 
 </select>
 
 
-<label for="challenge">Round</label>
+
+<label>
+Challenge
+</label>
+
 
 <select id="challenge" required>
 
-    <option value="">Select round</option>
-    <option value="Chain Reaction">Chain Reaction</option>
-    <option value="Guess Who">Guess Who</option>
-    <option value="Connections">Connections</option>
-    <option value="Family Feud">Family Feud</option>
-    <option value="Team Challenge">Team Challenge</option>
+<option value="">
+Select challenge
+</option>
+
+<option value="Chain Reaction">
+Chain Reaction
+</option>
+
+<option value="Guess Who">
+Guess Who
+</option>
+
+<option value="Connections">
+Connections
+</option>
+
+<option value="Family Feud">
+Family Feud
+</option>
+
+<option value="Team Challenge">
+Team Challenge
+</option>
 
 </select>
 
 
-<label for="points">Points</label>
+
+<label>
+Points
+</label>
+
 
 <input
-    type="number"
-    id="points"
-    placeholder="Enter points"
-    required>
+type="number"
+id="points"
+placeholder="Enter points"
+inputmode="numeric"
+required
+>
+
 
 
 <button type="submit">
-    Submit Score
+
+Submit Score
+
 </button>
+
 
 </form>
 
 
 <p id="message"></p>
 
+
 </div>
 
 
 <script src="admin.js"></script>
+
 
 </body>
 

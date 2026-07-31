@@ -1,5 +1,4 @@
-let previousTotals = {};
-let lastUpdate = null;
+let lastScoreId = sessionStorage.getItem("lastScoreId");
 
 let lastCelebration = "";
 let celebrationTime = 0;
@@ -38,6 +37,57 @@ async function loadLeaderboard() {
 
         const scores = data.scores;
 
+        // Detect a newly added score
+
+        if (
+            scores.length > 0 &&
+            lastScoreId &&
+            scores[0].id !== lastScoreId
+        ) {
+
+            const newestScore = scores[0];
+
+
+            lastCelebration = `
+
+            <div class="celebration">
+
+                🎉 NEW SCORE! 🎉
+
+                <br><br>
+
+                ${newestScore.team}
+                scored
+                ${newestScore.points}
+                points
+
+                <br>
+
+                in ${newestScore.challenge}
+
+            </div>
+
+            `;
+
+
+            celebrationTime = Date.now();
+
+        }
+
+
+        // Store the newest score we have seen
+
+        if(scores.length > 0){
+
+            lastScoreId = scores[0].id;
+
+            sessionStorage.setItem(
+                "lastScoreId",
+                lastScoreId
+            );
+
+        }
+
 
         if (scores.length === 0) {
 
@@ -68,62 +118,6 @@ async function loadLeaderboard() {
         });
 
 
-        // Detect new scores
-
-        let celebration = "";
-
-        for (const team in totals) {
-
-            if (
-                previousTotals[team] &&
-                totals[team] > previousTotals[team]
-            ) {
-
-                const increase =
-                    totals[team] - previousTotals[team];
-
-
-                const latest =
-                    scores.find(
-                        s => s.team === team
-                    );
-
-
-                lastCelebration = `
-
-                <div class="celebration">
-
-                    🎉 NEW SCORE! 🎉
-
-                    <br>
-
-                    ${team}
-                    scored
-                    ${increase}
-                    points
-                    in
-                    ${latest.challenge}
-
-                </div>
-
-                `;
-
-                celebrationTime = Date.now();
-
-            }
-
-        }
-
-        if (Date.now() - celebrationTime < 10000) {
-
-            celebration = lastCelebration;
-
-        }
-
-
-        previousTotals = {...totals};
-
-
         const rankings =
             Object.entries(totals)
             .map(([team, points]) => ({
@@ -138,14 +132,44 @@ async function loadLeaderboard() {
             rankings[0].points;
 
 
+        const leader = rankings[0];
+
+        let celebration = "";
+
+
+        if(
+            Date.now() - celebrationTime < 10000
+        ){
+
+            celebration = lastCelebration;
+
+        }
+
 
         let html = `
 
         ${celebration}
 
-        <h2>🏆 Current Standings</h2>
-        `;
+        <div class="leader">
 
+            <div>
+                🏔️ CURRENT LEADER
+            </div>
+
+            <h1>
+                ${leader.team}
+            </h1>
+
+            <h2>
+                ${leader.points} points
+            </h2>
+
+        </div>
+
+
+        <h2>🏆 Current Standings</h2>
+
+        `;
 
 
         rankings.forEach((team,index)=>{
