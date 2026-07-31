@@ -1,7 +1,8 @@
-let lastScoreId = sessionStorage.getItem("lastScoreId");
+let lastScoreId = localStorage.getItem("lastScoreId");
 
 let lastCelebration = "";
 let celebrationTime = 0;
+
 
 async function loadLeaderboard() {
 
@@ -17,18 +18,6 @@ async function loadLeaderboard() {
 
         const data = await response.json();
 
-        if (
-            lastUpdate &&
-            data.updatedAt &&
-            data.updatedAt !== lastUpdate
-        ) {
-
-            console.log("New score detected!");
-
-        }
-
-        lastUpdate = data.updatedAt;
-
 
         if (!data.success) {
             throw new Error("Failed to load scores");
@@ -37,35 +26,54 @@ async function loadLeaderboard() {
 
         const scores = data.scores;
 
-        // Detect a newly added score
+
+        if (scores.length === 0) {
+
+            container.innerHTML = `
+                <div class="empty">
+                    No scores submitted yet 🏔️
+                </div>
+            `;
+
+            return;
+
+        }
+
+
+        // ----------------------------
+        // Detect new score
+        // ----------------------------
+
+        const newestScore = scores[0];
+
 
         if (
-            scores.length > 0 &&
             lastScoreId &&
-            scores[0].id !== lastScoreId
+            newestScore.id !== lastScoreId
         ) {
-
-            const newestScore = scores[0];
 
 
             lastCelebration = `
 
-            <div class="celebration">
+                <div class="celebration">
 
-                🎉 NEW SCORE! 🎉
+                    🎉 NEW SCORE! 🎉
 
-                <br><br>
+                    <br><br>
 
-                ${newestScore.team}
-                scored
-                ${newestScore.points}
-                points
+                    ${newestScore.team}
 
-                <br>
+                    scored
 
-                in ${newestScore.challenge}
+                    ${newestScore.points}
 
-            </div>
+                    points
+
+                    <br>
+
+                    in ${newestScore.challenge}
+
+                </div>
 
             `;
 
@@ -75,47 +83,39 @@ async function loadLeaderboard() {
         }
 
 
-        // Store the newest score we have seen
+        // Save latest score seen
 
-        if(scores.length > 0){
+        lastScoreId = newestScore.id;
 
-            lastScoreId = scores[0].id;
-
-            sessionStorage.setItem(
-                "lastScoreId",
-                lastScoreId
-            );
-
-        }
+        localStorage.setItem(
+            "lastScoreId",
+            lastScoreId
+        );
 
 
-        if (scores.length === 0) {
 
-            container.innerHTML =
-            `
-            <div class="empty">
-                No scores submitted yet 🏔️
-            </div>
-            `;
-
-            return;
-
-        }
-
-
-        // Calculate team totals
+        // ----------------------------
+        // Calculate totals
+        // ----------------------------
 
         const totals = {};
 
+
         scores.forEach(score => {
 
+
             if (!totals[score.team]) {
+
                 totals[score.team] = 0;
+
             }
+
 
             totals[score.team] += score.points;
 
+
         });
+
 
 
         const rankings =
@@ -132,23 +132,36 @@ async function loadLeaderboard() {
             rankings[0].points;
 
 
-        const leader = rankings[0];
+
+        const leader =
+            rankings[0];
+
+
 
         let celebration = "";
 
 
-        if(
-            Date.now() - celebrationTime < 10000
-        ){
+        // Show celebration for 15 seconds
+
+        if (
+            Date.now() - celebrationTime < 15000
+        ) {
 
             celebration = lastCelebration;
 
         }
 
 
+
+        // ----------------------------
+        // Build page
+        // ----------------------------
+
         let html = `
 
+
         ${celebration}
+
 
         <div class="leader">
 
@@ -167,9 +180,14 @@ async function loadLeaderboard() {
         </div>
 
 
-        <h2>🏆 Current Standings</h2>
+
+        <h2>
+            🏆 Current Standings
+        </h2>
+
 
         `;
+
 
 
         rankings.forEach((team,index)=>{
@@ -177,9 +195,11 @@ async function loadLeaderboard() {
 
             let medal = "";
 
+
             if(index === 0) medal="🥇";
             if(index === 1) medal="🥈";
             if(index === 2) medal="🥉";
+
 
 
             const width =
@@ -189,23 +209,36 @@ async function loadLeaderboard() {
 
             html += `
 
+
             <div class="team-card">
+
 
                 <div class="team-header">
 
+
                     <span class="position">
-                        ${medal} ${index+1}
+
+                        ${medal} ${index + 1}
+
                     </span>
+
 
                     <span class="team-name">
+
                         ${team.team}
+
                     </span>
+
 
                     <span class="points">
+
                         ${team.points}
+
                     </span>
 
+
                 </div>
+
 
 
                 <div class="bar">
@@ -213,6 +246,7 @@ async function loadLeaderboard() {
                     <div 
                     class="fill"
                     style="width:${width}%">
+
                     </div>
 
                 </div>
@@ -220,18 +254,25 @@ async function loadLeaderboard() {
 
             </div>
 
+
             `;
 
 
         });
 
 
-        html += `
-        </div>
 
-        <h2>📢 Latest Scores</h2>
+        html += `
+
+
+        <h2>
+            📢 Latest Scores
+        </h2>
+
 
         <div class="recent">
+
+
         `;
 
 
@@ -244,19 +285,37 @@ async function loadLeaderboard() {
             html += `
 
             <p>
-            <strong>${score.team}</strong>
+
+            <strong>
+                ${score.team}
+            </strong>
+
             scored
-            <strong>${score.points}</strong>
+
+            <strong>
+                ${score.points}
+            </strong>
+
             points in
+
             ${score.challenge}
+
             </p>
 
+
             `;
+
 
         });
 
 
-        html += "</div>";
+
+        html += `
+
+        </div>
+
+        `;
+
 
 
         container.innerHTML = html;
@@ -266,18 +325,23 @@ async function loadLeaderboard() {
     }
     catch(error){
 
+
         console.error(error);
+
 
         container.innerHTML =
         "Unable to load leaderboard";
 
+
     }
+
 
 }
 
 
 
 loadLeaderboard();
+
 
 
 setInterval(
