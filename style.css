@@ -114,3 +114,79 @@ margin-bottom:20px;
     font-size:1.2rem;
 
 }
+
+
+.team-card {
+
+    background:white;
+    margin:20px 0;
+    padding:20px;
+    border-radius:15px;
+
+}
+
+
+.team-header {
+
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    font-size:1.8rem;
+
+}
+
+
+.team-name {
+
+    flex-grow:1;
+    margin-left:20px;
+    font-weight:bold;
+
+}
+
+
+.points {
+
+    font-size:2rem;
+    font-weight:bold;
+
+}
+
+
+.bar {
+
+    height:25px;
+    background:#eee;
+    border-radius:20px;
+    overflow:hidden;
+    margin-top:15px;
+
+}
+
+
+.fill {
+
+    height:100%;
+    background:#1f7a4d;
+    border-radius:20px;
+
+}
+
+
+.recent {
+
+    background:white;
+    padding:20px;
+    border-radius:15px;
+    font-size:1.2rem;
+
+}
+
+
+.empty {
+
+    text-align:center;
+    font-size:2rem;
+
+}
