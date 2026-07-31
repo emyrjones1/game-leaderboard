@@ -1,3 +1,9 @@
+let previousTotals = {};
+let lastUpdate = null;
+
+let lastCelebration = "";
+let celebrationTime = 0;
+
 async function loadLeaderboard() {
 
     const container = document.getElementById("leaderboard");
@@ -11,6 +17,18 @@ async function loadLeaderboard() {
 
 
         const data = await response.json();
+
+        if (
+            lastUpdate &&
+            data.updatedAt &&
+            data.updatedAt !== lastUpdate
+        ) {
+
+            console.log("New score detected!");
+
+        }
+
+        lastUpdate = data.updatedAt;
 
 
         if (!data.success) {
@@ -42,14 +60,68 @@ async function loadLeaderboard() {
         scores.forEach(score => {
 
             if (!totals[score.team]) {
-
                 totals[score.team] = 0;
-
             }
 
             totals[score.team] += score.points;
 
         });
+
+
+        // Detect new scores
+
+        let celebration = "";
+
+        for (const team in totals) {
+
+            if (
+                previousTotals[team] &&
+                totals[team] > previousTotals[team]
+            ) {
+
+                const increase =
+                    totals[team] - previousTotals[team];
+
+
+                const latest =
+                    scores.find(
+                        s => s.team === team
+                    );
+
+
+                lastCelebration = `
+
+                <div class="celebration">
+
+                    🎉 NEW SCORE! 🎉
+
+                    <br>
+
+                    ${team}
+                    scored
+                    ${increase}
+                    points
+                    in
+                    ${latest.challenge}
+
+                </div>
+
+                `;
+
+                celebrationTime = Date.now();
+
+            }
+
+        }
+
+        if (Date.now() - celebrationTime < 10000) {
+
+            celebration = lastCelebration;
+
+        }
+
+
+        previousTotals = {...totals};
 
 
         const rankings =
@@ -69,10 +141,9 @@ async function loadLeaderboard() {
 
         let html = `
 
+        ${celebration}
+
         <h2>🏆 Current Standings</h2>
-
-        <div class="teams">
-
         `;
 
 
@@ -187,5 +258,5 @@ loadLeaderboard();
 
 setInterval(
     loadLeaderboard,
-    30000
+    5000
 );

@@ -30,7 +30,10 @@ export default async () => {
     return new Response(
         JSON.stringify({
             success: true,
-            scores
+            scores,
+            updatedAt: scores.length > 0
+                ? scores[0].timestamp
+                : null
         }),
         {
             headers: {
