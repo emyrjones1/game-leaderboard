@@ -30,9 +30,37 @@ async function loadLeaderboard() {
         if (scores.length === 0) {
 
             container.innerHTML = `
-                <div class="empty">
-                    No scores submitted yet 🏔️
+
+                <div class="competition-banner">
+
+                    <h1>
+                        🏔️ OCAT Team Challenge 🏔️
+                    </h1>
+
+
+                    <h2>
+                        Scores reset!
+                    </h2>
+
+
+                    <p>
+                        The competition begins soon.
+                    </p>
+
+
+                    <p>
+                        Good luck teams! 🎉
+                    </p>
+
                 </div>
+
+
+                <div class="empty">
+
+                    Waiting for the first score...
+
+                </div>
+
             `;
 
             return;
@@ -346,5 +374,5 @@ loadLeaderboard();
 
 setInterval(
     loadLeaderboard,
-    5000
+    30000
 );

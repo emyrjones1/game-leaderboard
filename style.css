@@ -384,3 +384,47 @@ margin-bottom:20px;
     font-weight:bold;
 
 }
+
+
+.competition-banner {
+
+    background:white;
+
+    padding:40px;
+
+    margin:40px auto;
+
+    max-width:700px;
+
+    border-radius:25px;
+
+    text-align:center;
+
+    box-shadow:0 5px 20px rgba(0,0,0,0.1);
+
+}
+
+
+.competition-banner h1 {
+
+    font-size:3rem;
+
+    margin-bottom:20px;
+
+}
+
+
+.competition-banner h2 {
+
+    font-size:2rem;
+
+    margin-bottom:15px;
+
+}
+
+
+.competition-banner p {
+
+    font-size:1.5rem;
+
+}
