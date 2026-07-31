@@ -1,9 +1,15 @@
+import { getStore } from "@netlify/blobs";
+
 export default async () => {
+
+  const store = getStore("leaderboard");
+
+  const scores = await store.getJSON("scores");
 
   return new Response(
     JSON.stringify({
       success: true,
-      message: "Leaderboard API is working!"
+      scores: scores ?? []
     }),
     {
       headers: {
