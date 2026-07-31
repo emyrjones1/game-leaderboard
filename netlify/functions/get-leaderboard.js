@@ -4,12 +4,15 @@ export default async () => {
 
   const store = getStore("leaderboard");
 
-  const scores = await store.getJSON("scores");
+  const scores =
+    await store.get("scores", {
+      type: "json"
+    });
 
   return new Response(
     JSON.stringify({
       success: true,
-      scores: scores ?? []
+      scores: scores || []
     }),
     {
       headers: {
