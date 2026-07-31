@@ -14,42 +14,57 @@
 
 <body>
 
+<div class="container">
+
 <h1>Submit Round Score</h1>
 
 <form id="scoreForm">
 
-<label>Team</label>
+<label for="team">Team</label>
 
 <input
-type="text"
-id="team"
-required>
+    type="text"
+    id="team"
+    placeholder="Enter team name"
+    required>
 
-<label>Round</label>
+
+<label for="challenge">Round</label>
+
+<select id="challenge" required>
+
+    <option value="">Select round</option>
+    <option value="Chain Reaction">Chain Reaction</option>
+    <option value="Guess Who">Guess Who</option>
+    <option value="Connections">Connections</option>
+    <option value="Family Feud">Family Feud</option>
+    <option value="Team Challenge">Team Challenge</option>
+
+</select>
+
+
+<label for="points">Points</label>
 
 <input
-type="number"
-id="round"
-required>
+    type="number"
+    id="points"
+    placeholder="Enter points"
+    required>
 
-<label>Points</label>
-
-<input
-type="number"
-id="points"
-required>
 
 <button type="submit">
-
-Submit Score
-
+    Submit Score
 </button>
 
 </form>
 
+
 <p id="message"></p>
 
-<script src="script.js"></script>
+</div>
+
+
+<script src="admin.js"></script>
 
 </body>
 
